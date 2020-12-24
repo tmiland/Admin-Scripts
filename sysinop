@@ -10,14 +10,14 @@ LSB=/usr/bin/lsb_release
 
 # Purpose: Display pause prompt
 # $1-> Message (optional)
-function pause(){
+pause(){
 local message="$@"
 [ -z $message ] && message="Press [Enter] key to continue..."
 read -p "$message" readEnterKey
 }
 
 # Purpose - Display a menu on screen
-function show_menu(){
+show_menu(){
 date
 echo "---------------------------"
 echo " Main Menu"
@@ -38,7 +38,7 @@ echo "12. Exit"
 
 # Purpose - Display header message
 # $1 - message
-function write_header(){
+write_header(){
 local h="$@"
 echo "---------------------------------------------------------------"
 echo " ${h}"
@@ -46,7 +46,7 @@ echo "---------------------------------------------------------------"
 }
 
 # Purpose - Get info about your operating system
-function os_info(){
+os_info(){
 write_header " System information "
 echo "Operating system : $(uname)"
 [ -x $LSB ] && $LSB -a || echo "$LSB command is not insalled (set \$LSB variable)"
@@ -55,7 +55,7 @@ pause
 }
 
 # Purpose - Get info about host such as dns, IP, and hostname
-function host_info(){
+host_info(){
 local dnsips=$(sed -e '/^$/d' /etc/resolv.conf | awk '{if (tolower($1)=="nameserver") print $2}')
 write_header " Hostname and DNS information "
 echo "Hostname : $(hostname -s)"
@@ -67,7 +67,7 @@ pause
 }
 
 # Purpose - Network inferface and routing info
-function net_info(){
+net_info(){
 devices=$(netstat -i | cut -d" " -f1 | egrep -v "^Kernel|Iface|lo")
 write_header " Network information "
 echo "Total network interfaces found : $(wc -w <<<${devices})"
@@ -90,7 +90,7 @@ pause
 
 # Purpose - Display a list of users currently logged on 
 # display a list of receltly loggged in users 
-function user_info(){
+user_info(){
 local cmd="$1"
 case "$cmd" in 
 who) write_header " Who is online "; who -H; pause ;;
@@ -99,7 +99,7 @@ esac
 }
 
 # Purpose - Display used and free memory info
-function mem_info(){
+mem_info(){
 write_header " Free and used memory "
 free -m
 
@@ -115,7 +115,7 @@ pause
 }
 
 # Purpose - Get Public IP address form your ISP
-function ip_info(){
+ip_info(){
 cmd='curl -s'
 write_header " Public IP information "
 ipservice=checkip.dyndns.org
@@ -125,7 +125,7 @@ pause
 }
 
 # purpose - Get Disk Usage Information
-function disk_info() {
+disk_info() {
 usep=$(echo $output | awk '{ print $1}' | cut -d'%' -f1)
   partition=$(echo $output | awk '{print $2}')
 write_header " Disk Usage Info"
@@ -138,7 +138,7 @@ pause
 }
 #Purpose of Process Usage Information
 
-function proc_info() {
+proc_info() {
 write_header " Process Usage Info"
 txtred=$(tput setaf 1)
 txtgrn=$(tput setaf 2)
@@ -241,7 +241,7 @@ pause
 }
 
 #Purpose - For getting  User operation and infrmations
-function user_infos() {
+user_infos() {
 
 write_header "User Operations"
 
@@ -399,7 +399,7 @@ pause
 }
 
 #Purpose  - For File Opertios
-function file_info() {
+file_info() {
 write_header "File OPerations"
 txtred=$(tput setaf 1)
 txtgrn=$(tput setaf 2)
@@ -665,7 +665,7 @@ done
 pause
 }
 # Purpose - Get input via the keyboard and make a decision using case..esac 
-function read_input(){
+read_input(){
 local c
 read -p "Enter your choice [ 1 -12 ] " c
 case $c in
